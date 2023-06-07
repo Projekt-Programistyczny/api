@@ -6,8 +6,8 @@ from sqlalchemy import create_engine, desc
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from models.links import Link as ModelLink
-from models.real_estates import RealEstates as ModelRealEstates
+from src.models.links import Link as ModelLink
+from src.models.real_estates import RealEstates as ModelRealEstates
 
 load_dotenv(f"{os.path.dirname(__file__)}/.env")
 

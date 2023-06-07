@@ -142,11 +142,11 @@ a
 
 a:hover 
 {
-    color: dimgray;
+    color: #fff;
 }
 
 a:active {
-    color: dimgray;
+    color: #fff;
 }
 
 .button 

@@ -91,11 +91,9 @@
             </table>
         </div>
         <div class="container_details">
-            <table>
-                <tbody id="offers_details_table_body">
-                  
-                </tbody>
-              </table>
+            <table id="offers_details_table_body">
+                <!-- Offers details data will be dynamically filled here -->
+            </table>
         </div>
       </div>
 
@@ -139,6 +137,8 @@
 
     <script>
         document.addEventListener('dataLoaded', () => {
+
+            console.log("Data loaded")
             // Retrieving a table with a specific ID
             const table = document.getElementById('table_offers');
 
@@ -167,13 +167,31 @@
         document.addEventListener('showDetails', event => {
             const url = event.detail;
 
+            console.log("Data clicked")
+
             fetch(`/offer_detail?url=${url}`)
                 .then(response => response.json())
                 .then(data => {
-                    offerTableBody.innerHTML = '';
+                    offerDetailsTableBody.innerHTML = '';
 
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
+                    console.log(data)
+                    console.log(data[0])
+                    console.log(data[0].city)
+                    data=data[0]
+
+                    console.log(data)
+                    console.log(data.city)
+
+                    const tabHeader = document.createElement('thead');
+                    tabHeader.innerHTML = `
+                        <tr colspan="2">
+                            <th colspan="2">Szczegóły oferty</th>
+                        </tr>
+                    `
+                    offerDetailsTableBody.appendChild(tabHeader);
+
+                    const tab = document.createElement('tbody');
+                    tab.innerHTML = `
                         <tr>
                             <td>Miasto</td>
                             <td>${data.city}</td>
@@ -188,15 +206,15 @@
                         </tr>
                         <tr>
                             <td>Całkowity koszt</td>
-                            <td>${data.total_price} ${oferta.currency}</td>
+                            <td>${data.total_price} ${data.currency}</td>
                         </tr>
                         <tr>
                             <td>Koszt wynajmu</td>
-                            <td>${data.price} ${oferta.currency}</td>
+                            <td>${data.price} ${data.currency}</td>
                         </tr>
                         <tr>
                             <td>Czynsz</td>
-                            <td>${data.rent} ${oferta.currency}</td>
+                            <td>${data.rent} ${data.currency}</td>
                         </tr>
                         <tr>
                             <td>Powierzchnia</td>
@@ -223,7 +241,7 @@
                             <td>${data.status}</td>
                         </tr>
                     `;
-                    offerTableBody.appendChild(row);
+                    offerDetailsTableBody.appendChild(tab);
                 })
                 .catch(error => console.error(error));
         });
