@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oferty mieszkań</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Oferty mieszkań</h1>
+
+    <div class="container_menu">
+
+        <form id="menu">
+            <table>
+                <thead>
+                <tr>
+                    <th>Miasto</th>
+                    <th>Typ oferty</th>
+                    <th>Kategoria</th>
+                    <th>Sortuj</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <form id="miasto-form">
+                            <label for="city_select"></label>
+                            <select id="city_select" class="button" name="miasto">
+                                <option value="all">Wszystkie</option>
+                                {% for city in cities %}
+                                <option value="{{ city }}">{{ city }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </td>
+                    <td>
+                        <form id="type-form">
+                            <label for="type_select"></label>
+                            <select id="type_select" class="button" name="typ">
+                                <option value="all">Wszystkie</option>
+                                <option value="wynajem">Wynajem</option>
+                                <option value="sprzedaz">Kupno</option>
+                            </select>
+                        </form>
+                    </td>
+                    <td>
+                        <form id="building-form">
+                            <label for="building_select"></label>
+                            <select id="building_select" class="button" name="building">
+                                <option value="all">Wszystkie</option>
+                                <option value="mieszkanie">Mieszkania</option>
+                                <option value="dom">Domy</option>
+                            </select>
+                        </form>
+                    </td>
+                    <td>
+                    <select>
+                        <option value="sort1">Sortuj 1</option>
+                        <option value="sort2">Sortuj 2</option>
+                        <option value="sort3">Sortuj 3</option>
+                    </select>
+                    </td>
+                    <td>
+                        <button type="submit" class="button">Filtruj</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+
+    <div class="layout">
+        <div class="container_offers">
+            <table id="table_offers">
+                <thead>
+                    <tr>
+                        <th>Numer</th>
+                        <th>Opis</th>
+                        <th>Lokalizacja</th>
+                        <th>Cena</th>
+                    </tr>
+                </thead>
+                <tbody id="offers_table_body">
+                    <!-- Offers data will be dynamically filled here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="container_details">
+            <table>
+                <tbody id="offers_details_table_body">
+                  <tr>
+                    <td>5</td>
+                    <td>3</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>4</td>
+                    <td>6</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+      </div>
+
+    <script>
+        const cityForm = document.getElementById('menu');
+        const citySelect = document.getElementById('city_select');
+        const type_select = document.getElementById('type_select');
+        const building_select = document.getElementById('building_select');
+        const offerTableBody = document.getElementById('offers_table_body');
+
+        cityForm.addEventListener('submit', event => {
+            event.preventDefault();
+            const miasto = citySelect.value;
+            const offer_type = type_select.value;
+            const estate_type = building_select.value;
+
+            fetch(`/offers?city=${miasto}&type_of_offer=${offer_type}&type_of_estate=${estate_type}`)
+                .then(response => response.json())
+                .then(data => {
+                    offerTableBody.innerHTML = '';
+
+                    data.forEach(oferta => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <tr>
+                                <td><a href="${oferta.url}" target="_blank">Link do oferty</a></td>
+                                <td>${oferta.description}</td>
+                                <td>${oferta.city}</td>
+                                <td>${oferta.total_price} ${oferta.currency}</td>
+                            </tr>
+                        `;
+                        offerTableBody.appendChild(row);
+                    });
+
+                    const eventNew = new CustomEvent('daneWczytane');
+                    document.dispatchEvent(eventNew);
+                })
+                .catch(error => console.error(error));
+        });
+    </script>
+
+    <script>
+        document.addEventListener('daneWczytane', () => {
+            // Retrieving a table with a specific ID
+            const table = document.getElementById('table_offers');
+
+            // Retrieve all rows of a table in this table
+            const rows = table.querySelectorAll('tbody tr');
+
+            // Adding event handlers for each row
+            rows.forEach((row) => {
+                row.addEventListener('click', () => {
+                    const target = event.target;
+
+                    const row = target.closest('tr');
+                    const link = row.querySelector('a').href;
+
+                    const showDetails = new CustomEvent('showDetails', { detail: link });
+                    document.dispatchEvent(showDetails);
+                });
+            });
+        });
+    </script>
+
+
+    <script>
+        const offerDetailsTableBody = document.getElementById('offers_details_table_body');
+
+        document.addEventListener('showDetails', event => {
+            const url = event.detail;
+
+            fetch(`/offer_detail?url=${url}`)
+                .then(response => response.json())
+                .then(data => {
+                    offerTableBody.innerHTML = '';
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <tr>
+                            <td>Całkowity koszt</td>
+                            <td>${data.total_price}</td>
+                        </tr>
+                    `;
+                    offerTableBody.appendChild(row);
+                })
+                .catch(error => console.error(error));
+        });
+    </script>
+
+</body>
+</html>

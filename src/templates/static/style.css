@@ -1,0 +1,188 @@
+html,
+body 
+{
+    margin: 0;
+    height: 2000px;
+    background: linear-gradient(90deg, #49a09d, #5f2c82);
+    font-family: sans-serif;
+	font-weight: 100;
+    background-size: 100% 200%;
+    background-position: top;
+}
+
+h1 
+{
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    font-size: 50px;
+}
+
+.container_menu 
+{
+    padding: 10px;
+    color: #fff;
+    margin: 45px;
+}
+
+.container_menu th 
+{
+	text-align: left;
+    padding: 0px 0px 0px 7px;
+}
+
+.container_menu button
+{
+    padding: 10px;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+    border-radius: 4px;
+}
+
+.layout 
+{
+    margin-left:-5px;
+    margin-right:-5px;
+    display: flex;
+    justify-content: space-between;
+}
+  
+.layout::after 
+{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.container_offers 
+{
+    padding: 10px;
+    margin: 45px;
+    width: 50%;
+}
+
+
+.container_offers table 
+{
+	width: 90%;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.container_offers th,
+.container_offers td 
+{
+	padding: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+}
+
+.container_offers th 
+{
+	text-align: left;
+}
+
+.container_offers thead 
+{
+	th 
+    {
+		background-color: #55608f;
+	}
+}
+
+.container_offers tbody tr:hover 
+{
+    background-color: #5f2c82;
+    color: #5f2c82;
+}
+
+
+.container_details 
+{
+    padding: 10px;
+    margin: 45px;
+    width: 50%;
+}
+
+.container_details table 
+{
+	width: 90%;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.container_details th,
+.container_details td 
+{
+	padding: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+}
+
+.container_details th 
+{
+	text-align: left;
+}
+
+.container_details thead 
+{
+	th 
+    {
+		background-color: #55608f;
+	}
+}
+
+a 
+{
+    color:  #fff;
+    text-decoration: none;
+}
+
+a:hover 
+{
+    color: dimgray;
+}
+
+a:active {
+    color: dimgray;
+}
+
+.button 
+{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #55608f;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+.button:hover 
+{
+    background-color: #44517a;
+}
+  
+select 
+{
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    appearance: none;
+    cursor: pointer;
+}
+
+select:hover 
+{
+    background-color: rgba(255, 255, 255, 0.3);
+}
+  
+select:active 
+{
+    background-color: rgba(255, 255, 255, 0.4);
+}

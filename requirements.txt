@@ -1,0 +1,6 @@
+Jinja2
+fastapi
+uvicorn[standard]
+python-dotenv==1.0.0
+SQLAlchemy==2.0.10
+psycopg2-binary==2.9.6
