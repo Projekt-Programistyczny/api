@@ -4,11 +4,18 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import uvicorn
+import yaml
 import os
 
 app = FastAPI()
 templates = Jinja2Templates(directory=f"{os.path.dirname(__file__)}/templates")
 app.mount("/static", StaticFiles(directory=f"{os.path.dirname(__file__)}/templates/static"), name="static")
+
+
+with open(f"{os.path.dirname(__file__)}/cities.yaml", 'r') as f:
+    cities_yaml = yaml.safe_load(f)
+
+CITY_TO_EXPLORE = cities_yaml["region"]["cities"]
 
 
 oferty = [
@@ -30,7 +37,7 @@ oferty = [
 @app.get("/", response_class=HTMLResponse)
 def get_homepage(request: Request):
     cities = ['katowice','tychy', 'sosnowiec']
-    return templates.TemplateResponse("index.html", {"request": request, "cities": cities})
+    return templates.TemplateResponse("index.html", {"request": request, "cities": CITY_TO_EXPLORE})
 
 
 
@@ -43,10 +50,7 @@ def get_oferty_mieszkan(city: str = "all", type_of_offer: str = "all", type_of_e
         print(type(type_of_offer))
         print(type_of_estate)
         print(type(type_of_estate))
-        # if city == "all":
-        #     print(city)
-        #     print(type(city))
-        # else:
+
         print(select_offers(city, type_of_offer, type_of_estate))
     else:
         return 

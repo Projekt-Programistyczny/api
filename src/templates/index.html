@@ -55,11 +55,14 @@
                         </form>
                     </td>
                     <td>
-                    <select>
-                        <option value="sort1">Sortuj 1</option>
-                        <option value="sort2">Sortuj 2</option>
-                        <option value="sort3">Sortuj 3</option>
-                    </select>
+                        <form id="sort-form">
+                            <label for="sort_select"></label>
+                            <select id="sort_select" class="button" name="sort">
+                                <option value="">TODO</option>
+                                <option value="">TODO</option>
+                                <option value="">TODO</option>
+                            </select>
+                        </form>
                     </td>
                     <td>
                         <button type="submit" class="button">Filtruj</button>
@@ -90,16 +93,7 @@
         <div class="container_details">
             <table>
                 <tbody id="offers_details_table_body">
-                  <tr>
-                    <td>5</td>
-                    <td>3</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>8</td>
-                    <td>4</td>
-                    <td>6</td>
-                  </tr>
+                  
                 </tbody>
               </table>
         </div>
@@ -136,15 +130,15 @@
                         offerTableBody.appendChild(row);
                     });
 
-                    const eventNew = new CustomEvent('daneWczytane');
-                    document.dispatchEvent(eventNew);
+                    const dataLoaded = new CustomEvent('dataLoaded');
+                    document.dispatchEvent(dataLoaded);
                 })
                 .catch(error => console.error(error));
         });
     </script>
 
     <script>
-        document.addEventListener('daneWczytane', () => {
+        document.addEventListener('dataLoaded', () => {
             // Retrieving a table with a specific ID
             const table = document.getElementById('table_offers');
 
@@ -181,8 +175,52 @@
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <tr>
+                            <td>Miasto</td>
+                            <td>${data.city}</td>
+                        </tr>
+                        <tr>
+                            <td>Województwo</td>
+                            <td>${data.region}</td>
+                        </tr>
+                        <tr>
+                            <td>Opis</td>
+                            <td>${data.description}</td>
+                        </tr>
+                        <tr>
                             <td>Całkowity koszt</td>
-                            <td>${data.total_price}</td>
+                            <td>${data.total_price} ${oferta.currency}</td>
+                        </tr>
+                        <tr>
+                            <td>Koszt wynajmu</td>
+                            <td>${data.price} ${oferta.currency}</td>
+                        </tr>
+                        <tr>
+                            <td>Czynsz</td>
+                            <td>${data.rent} ${oferta.currency}</td>
+                        </tr>
+                        <tr>
+                            <td>Powierzchnia</td>
+                            <td>${data.area}</td>
+                        </tr>
+                        <tr>
+                            <td>Liczba pokoi</td>
+                            <td>${data.rooms}</td>
+                        </tr>
+                        <tr>
+                            <td>Piętro</td>
+                            <td>${data.floor}</td>
+                        </tr>
+                        <tr>
+                            <td>Kaucja</td>
+                            <td>${data.deposit}</td>
+                        </tr>
+                        <tr>
+                            <td>Typ mieszkania</td>
+                            <td>${data.type}</td>
+                        </tr>
+                        <tr>
+                            <td>Stan</td>
+                            <td>${data.status}</td>
                         </tr>
                     `;
                     offerTableBody.appendChild(row);
