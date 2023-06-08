@@ -79,7 +79,7 @@
             <table id="table_offers">
                 <thead>
                     <tr>
-                        <th>Numer</th>
+                        <th>Link</th>
                         <th>Opis</th>
                         <th>Lokalizacja</th>
                         <th>Cena</th>
@@ -174,14 +174,6 @@
                 .then(data => {
                     offerDetailsTableBody.innerHTML = '';
 
-                    console.log(data)
-                    console.log(data[0])
-                    console.log(data[0].city)
-                    data=data[0]
-
-                    console.log(data)
-                    console.log(data.city)
-
                     const tabHeader = document.createElement('thead');
                     tabHeader.innerHTML = `
                         <tr colspan="2">
@@ -240,8 +232,15 @@
                             <td>Stan</td>
                             <td>${data.status}</td>
                         </tr>
+                        <tr>
+                            <td>Link</td>
+                            <td><a href="${data.url}" target="_blank">Link do oferty</a></td>
+                        </tr>
                     `;
                     offerDetailsTableBody.appendChild(tab);
+
+                    window.scrollTo(0, 270);
+
                 })
                 .catch(error => console.error(error));
         });
