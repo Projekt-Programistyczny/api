@@ -42,70 +42,22 @@ def get_homepage(request: Request):
 
 
 @app.get("/offers", response_class=JSONResponse)
-def get_offers(city: str = "all", type_of_offer: str = "all", type_of_estate: str ="all", sort_by: str = "Default"):
-    print(city)
-    print(type(city))
-    print(type_of_offer)
-    print(type(type_of_offer))
-    print(type_of_estate)
-    print(type(type_of_estate))
-
-    return select_offers(city, type_of_offer, type_of_estate)
-
-    return [{  "city":f"katowice", \
-                "type_of_estate":f"test", \
-                "type_of_offer":f"test", \
-                "url":f"https://test.html", \
-                "description":f"test", \
-                "total_price":f"934883", \
-                "price":f"4235435", \
-                "rent":f"23423453", \
-                "currency":f"zł", \
-                "area":f"54", \
-                'rooms':f"2", \
-                "deposit":f"-1", \
-                'floor':f"3", \
-                "type":f"test", \
-                "status":f"test", \
-                "region":f"test"},
-                {  "city":f"katowice", \
-                "type_of_estate":f"test", \
-                "type_of_offer":f"test", \
-                "url":f"https://test.html", \
-                "description":f"test", \
-                "total_price":f"934883", \
-                "price":f"4235435", \
-                "rent":f"23423453", \
-                "currency":f"zł", \
-                "area":f"54", \
-                'rooms':f"2", \
-                "deposit":f"-1", \
-                'floor':f"3", \
-                "type":f"test", \
-                "status":f"test", \
-                "region":f"test"}]
+def get_offers(city: str = "all", type_of_offer: str = "all", type_of_estate: str ="all", sort_by: str = "default"):
+    # Below debug part :) 
+    # print(city)
+    # print(type(city))
+    # print(type_of_offer)
+    # print(type(type_of_offer))
+    # print(type_of_estate)
+    # print(type(type_of_estate))
+    # print(sort_by)
+    # print(type(sort_by))
+    return select_offers(city, type_of_offer, type_of_estate, sort_by)
 
 
 @app.get("/offer_detail", response_class=JSONResponse)
 def get_offer_details(url: str = None):
     return select_offer_details(url)
-    # return {  "city":f"katowice", \
-    #             "type_of_estate":f"test", \
-    #             "type_of_offer":f"test", \
-    #             "url":f"https://test.html", \
-    #             "description":f"testsadfasf asdfr edsw fdsaf aefsda efwesdaf", \
-    #             "total_price":f"934883", \
-    #             "price":f"4235435", \
-    #             "rent":f"23423453", \
-    #             "currency":f"zł", \
-    #             "area":f"54", \
-    #             'rooms':f"2", \
-    #             "deposit":f"-1", \
-    #             'floor':f"3", \
-    #             "type":f"test", \
-    #             "status":f"test", \
-    #             "region":f"test"},
-
 
 
 

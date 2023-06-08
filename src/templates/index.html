@@ -58,9 +58,9 @@
                         <form id="sort-form">
                             <label for="sort_select"></label>
                             <select id="sort_select" class="button" name="sort">
-                                <option value="">TODO</option>
-                                <option value="">TODO</option>
-                                <option value="">TODO</option>
+                                <option value="default">Brak</option>
+                                <option value="ascending">Cena rosnąco</option>
+                                <option value="descending">Cena malejąco</option>
                             </select>
                         </form>
                     </td>
@@ -102,6 +102,7 @@
         const citySelect = document.getElementById('city_select');
         const type_select = document.getElementById('type_select');
         const building_select = document.getElementById('building_select');
+        const sort_select = document.getElementById('sort_select')
         const offerTableBody = document.getElementById('offers_table_body');
 
         cityForm.addEventListener('submit', event => {
@@ -109,8 +110,9 @@
             const miasto = citySelect.value;
             const offer_type = type_select.value;
             const estate_type = building_select.value;
+            const sort_type = sort_select.value;
 
-            fetch(`/offers?city=${miasto}&type_of_offer=${offer_type}&type_of_estate=${estate_type}`)
+            fetch(`/offers?city=${miasto}&type_of_offer=${offer_type}&type_of_estate=${estate_type}&sort_by=${sort_type}`)
                 .then(response => response.json())
                 .then(data => {
                     offerTableBody.innerHTML = '';

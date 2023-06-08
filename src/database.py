@@ -57,7 +57,7 @@ def select_unused_and_active_links(city: str):
         return links_details
 
 
-def select_offers(city: str, type_of_offers: str, type_of_estate: str):
+def select_offers(city: str, type_of_offers: str, type_of_estate: str, sort_by: str = "default"):
     with SessionLocal() as db:
 
         if city != "all" and type_of_offers != "all" and type_of_estate != "all":
@@ -121,6 +121,13 @@ def select_offers(city: str, type_of_offers: str, type_of_estate: str):
                 i+=1
 
         # Sort here
+        if sort_by == "ascending":
+            results = sorted(results, key=lambda x: float(x["total_price"]))
+        elif sort_by == "descending":
+            results = sorted(results, key=lambda x: float(x["total_price"]), reverse=True)
+        else:
+            results = results
+
 
 
         return results
