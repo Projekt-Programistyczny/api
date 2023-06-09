@@ -42,7 +42,7 @@ def get_homepage(request: Request):
 
 
 @app.get("/offers", response_class=JSONResponse)
-def get_offers(city: str = "all", type_of_offer: str = "all", type_of_estate: str ="all", sort_by: str = "default"):
+def get_offers(city: str="all", type_of_offer: str="all", type_of_estate: str ="all", sort_by: str="default", category: int=0):
     # Below debug part :) 
     # print(city)
     # print(type(city))
@@ -50,9 +50,9 @@ def get_offers(city: str = "all", type_of_offer: str = "all", type_of_estate: st
     # print(type(type_of_offer))
     # print(type_of_estate)
     # print(type(type_of_estate))
-    # print(sort_by)
-    # print(type(sort_by))
-    return select_offers(city, type_of_offer, type_of_estate, sort_by)
+    # print(category)
+    # print(type(category))
+    return select_offers(city, type_of_offer, type_of_estate, sort_by, category)
 
 
 @app.get("/offer_detail", response_class=JSONResponse)

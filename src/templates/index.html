@@ -18,6 +18,8 @@
                     <th>Typ oferty</th>
                     <th>Kategoria</th>
                     <th>Sortuj</th>
+                    <th>Kategoria</th>
+                    <th></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -65,7 +67,21 @@
                         </form>
                     </td>
                     <td>
+                        <form id="category-form">
+                            <label for="category_select"></label>
+                            <select id="category_select" class="button" name="category">
+                                <option value=0>Wszystkie</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                            </select>
+                        </form>
+                    </td>
+                    <td>
                         <button type="submit" class="button">Filtruj</button>
+                    </td>
+                    <td>
+                        <div id="loader" style="display:none;"></div>
                     </td>
                 </tr>
                 </tbody>
@@ -73,6 +89,28 @@
         </form>
     </div>
 
+
+<!-- Not works when I moved it to .css. IDK why so right now keep this part here -->
+<style>
+    #loader 
+    {
+        position: absolute;
+        z-index: 1;
+        width: 20px;
+        height: 20px;
+        margin: -15px 0 0 10px;
+        border: 6px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 6px solid #5f2c82;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin 
+    {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style> 
 
     <div class="layout">
         <div class="container_offers">
@@ -97,12 +135,26 @@
         </div>
       </div>
 
+
+    <script>
+        function startLoading() 
+        {
+            document.getElementById("loader").style.display = "block";
+        }
+        
+        function stopLoading() 
+        {
+            document.getElementById("loader").style.display = "none";
+        }
+    </script>
+
     <script>
         const cityForm = document.getElementById('menu');
         const citySelect = document.getElementById('city_select');
         const type_select = document.getElementById('type_select');
         const building_select = document.getElementById('building_select');
         const sort_select = document.getElementById('sort_select')
+        const category_select = document.getElementById('category_select')
         const offerTableBody = document.getElementById('offers_table_body');
 
         cityForm.addEventListener('submit', event => {
@@ -111,8 +163,10 @@
             const offer_type = type_select.value;
             const estate_type = building_select.value;
             const sort_type = sort_select.value;
+            const category_type = category_select.value;
+            startLoading();
 
-            fetch(`/offers?city=${miasto}&type_of_offer=${offer_type}&type_of_estate=${estate_type}&sort_by=${sort_type}`)
+            fetch(`/offers?city=${miasto}&type_of_offer=${offer_type}&type_of_estate=${estate_type}&sort_by=${sort_type}&category=${category_type}`)
                 .then(response => response.json())
                 .then(data => {
                     offerTableBody.innerHTML = '';
@@ -139,8 +193,7 @@
 
     <script>
         document.addEventListener('dataLoaded', () => {
-
-            console.log("Data loaded")
+            stopLoading();
             // Retrieving a table with a specific ID
             const table = document.getElementById('table_offers');
 
@@ -168,8 +221,7 @@
 
         document.addEventListener('showDetails', event => {
             const url = event.detail;
-
-            console.log("Data clicked")
+            startLoading();
 
             fetch(`/offer_detail?url=${url}`)
                 .then(response => response.json())
@@ -235,6 +287,10 @@
                             <td>${data.status}</td>
                         </tr>
                         <tr>
+                            <td>Kategoria przynależności (ML)</td>
+                            <td>${data.category}</td>
+                        </tr>
+                        <tr>
                             <td>Link</td>
                             <td><a href="${data.url}" target="_blank">Link do oferty</a></td>
                         </tr>
@@ -242,6 +298,7 @@
                     offerDetailsTableBody.appendChild(tab);
 
                     window.scrollTo(0, 270);
+                    stopLoading();
 
                 })
                 .catch(error => console.error(error));
